@@ -6,17 +6,17 @@ class HomeController {
   final repository = GitHubRepositoriesRepository();
   final state = ValueNotifier<HomeStates>(HomeStates.start);
   late Repository repos;
+  List<Items> items = [];
 
   int _pageIndex = 0;
 
   Future start() async {
-    if(_pageIndex == 0){
       state.value = HomeStates.loading;
-    }else{
-      state.value = HomeStates.moreItems;
-    }
     try {
-      repos = await repository.fetchRepositories(_pageIndex);
+      var newItems = await repository.fetchRepositories(_pageIndex);
+      newItems.items?.forEach((element) {
+        items.add(element);
+      });
       state.value = HomeStates.success;
       _pageIndex++;
     } catch (e) {
@@ -25,4 +25,4 @@ class HomeController {
   }
 }
 
-enum HomeStates { start, loading, success, error, moreItems }
+enum HomeStates { start, loading, success, error }

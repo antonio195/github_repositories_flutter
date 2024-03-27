@@ -15,9 +15,9 @@ class _HomePageState extends State<HomePage> {
   _success() {
     return ListView.builder(
       controller: _scrollController,
-      itemCount: _controller.repos.items?.length,
+      itemCount: _controller.items.length,
       itemBuilder: (context, int index) {
-        var repoItem = _controller.repos.items?[index];
+        var repoItem = _controller.items[index];
         var starsCount = repoItem?.stargazersCount;
         var forksCount = repoItem?.forksCount;
         return ListTile(
@@ -49,16 +49,12 @@ class _HomePageState extends State<HomePage> {
     return Container();
   }
 
-  _moreItems() {}
-
   _stateManagement(HomeStates state) {
     switch (state) {
       case HomeStates.start:
         return _start();
       case HomeStates.loading:
         return _loading();
-      case HomeStates.moreItems:
-        return _moreItems();
       case HomeStates.success:
         return _success();
       case HomeStates.error:
